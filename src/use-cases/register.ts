@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { hash } from 'bcryptjs'
 
 interface RegisterUseCaseRequest {
   name: string
@@ -17,11 +18,23 @@ export async function registerUseCase({
   address,
   whatsapp,
 }: RegisterUseCaseRequest) {
+  const orgAlreadyExists = await prisma.org.findUnique({
+    where: {
+      email,
+    },
+  })
+
+  if (orgAlreadyExists) {
+    throw new Error('Organization already exists!')
+  }
+
+  const password_hash = await hash(password, 6)
+
   await prisma.org.create({
     data: {
       name,
       email,
-      password_hash: password,
+      password_hash,
       cep,
       address,
       whatsapp,
