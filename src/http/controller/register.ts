@@ -1,4 +1,4 @@
-import { registerUseCase } from '@/use-cases/register'
+import { RegisterUseCase } from '@/use-cases/register'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -16,7 +16,9 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     registerBodySchema.parse(request.body)
 
   try {
-    await registerUseCase({
+    const registerUseCase = new RegisterUseCase()
+
+    await registerUseCase.execute({
       name,
       email,
       password,

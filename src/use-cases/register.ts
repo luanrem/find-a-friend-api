@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { Org } from '@prisma/client'
 import { hash } from 'bcryptjs'
 
 interface RegisterUseCaseRequest {
@@ -10,34 +11,41 @@ interface RegisterUseCaseRequest {
   whatsapp: string
 }
 
-export async function registerUseCase({
-  name,
-  email,
-  password,
-  cep,
-  address,
-  whatsapp,
-}: RegisterUseCaseRequest) {
-  const orgAlreadyExists = await prisma.org.findUnique({
-    where: {
-      email,
-    },
-  })
+export class RegisterUseCase {
+  // eslint-disable-next-line prettier/prettier
+  constructor() { }
 
-  if (orgAlreadyExists) {
-    throw new Error('Organization already exists!')
+  async execute({
+    name,
+    email,
+    password,
+    cep,
+    address,
+    whatsapp,
+  }: RegisterUseCaseRequest): Promise<Org> {
+    const orgAlreadyExists = await prisma.org.findUnique({
+      where: {
+        email,
+      },
+    })
+
+    if (orgAlreadyExists) {
+      throw new Error('Organization already exists!')
+    }
+
+    const password_hash = await hash(password, 6)
+
+    const org = await prisma.org.create({
+      data: {
+        name,
+        email,
+        password_hash,
+        cep,
+        address,
+        whatsapp,
+      },
+    })
+
+    return org
   }
-
-  const password_hash = await hash(password, 6)
-
-  await prisma.org.create({
-    data: {
-      name,
-      email,
-      password_hash,
-      cep,
-      address,
-      whatsapp,
-    },
-  })
 }
