@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'
+import { OrgsRepository } from '@/repositories/orgs-repository'
 import { Org } from '@prisma/client'
 import { hash } from 'bcryptjs'
 
@@ -13,7 +13,7 @@ interface RegisterUseCaseRequest {
 
 export class RegisterUseCase {
   // eslint-disable-next-line prettier/prettier
-  constructor() { }
+  constructor(private orgsRepository: OrgsRepository) { }
 
   async execute({
     name,
@@ -23,11 +23,7 @@ export class RegisterUseCase {
     address,
     whatsapp,
   }: RegisterUseCaseRequest): Promise<Org> {
-    const orgAlreadyExists = await prisma.org.findUnique({
-      where: {
-        email,
-      },
-    })
+    const orgAlreadyExists = await this.orgsRepository.findByEmail(email)
 
     if (orgAlreadyExists) {
       throw new Error('Organization already exists!')
@@ -35,15 +31,13 @@ export class RegisterUseCase {
 
     const password_hash = await hash(password, 6)
 
-    const org = await prisma.org.create({
-      data: {
-        name,
-        email,
-        password_hash,
-        cep,
-        address,
-        whatsapp,
-      },
+    const org = await this.orgsRepository.create({
+      name,
+      email,
+      password_hash,
+      cep,
+      address,
+      whatsapp,
     })
 
     return org
