@@ -12,6 +12,10 @@ interface RegisterUseCaseRequest {
   whatsapp: string
 }
 
+interface RegisterUseCaseResponse {
+  org: Org
+}
+
 export class RegisterUseCase {
   // eslint-disable-next-line prettier/prettier
   constructor(private orgsRepository: OrgsRepository) { }
@@ -23,7 +27,7 @@ export class RegisterUseCase {
     cep,
     address,
     whatsapp,
-  }: RegisterUseCaseRequest): Promise<Org> {
+  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     const orgAlreadyExists = await this.orgsRepository.findByEmail(email)
 
     if (orgAlreadyExists) {
@@ -41,6 +45,8 @@ export class RegisterUseCase {
       whatsapp,
     })
 
-    return org
+    return {
+      org,
+    }
   }
 }
