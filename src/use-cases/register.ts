@@ -7,8 +7,8 @@ interface RegisterUseCaseRequest {
   name: string
   email: string
   password: string
-  cep?: null | string
-  address?: null | string
+  cep: string
+  address: string
   whatsapp: string
 }
 

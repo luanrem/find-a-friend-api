@@ -17,6 +17,8 @@ describe('Register Org', () => {
     const { org } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
+      address: 'Street something',
+      cep: '80801802',
       password: '123456',
       whatsapp: '419998188803',
     })
@@ -30,6 +32,8 @@ describe('Register Org', () => {
     await sut.execute({
       name: 'John Doe',
       email: emailTest,
+      address: 'Street something',
+      cep: '80801802',
       password: '123456',
       whatsapp: '419998188803',
     })
@@ -38,6 +42,8 @@ describe('Register Org', () => {
       sut.execute({
         name: 'John Doe',
         email: emailTest,
+        address: 'Street something',
+        cep: '80801802',
         password: '123456',
         whatsapp: '419998188803',
       }),
@@ -48,6 +54,8 @@ describe('Register Org', () => {
     const { org } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
+      address: 'Street something',
+      cep: '80801802',
       password: '123456',
       whatsapp: '419998188803',
     })

@@ -9,8 +9,8 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    cep: z.string().nullable().optional(),
-    address: z.string().nullable().optional(),
+    cep: z.string(),
+    address: z.string(),
     whatsapp: z.string(),
   })
 
