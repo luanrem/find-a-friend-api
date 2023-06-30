@@ -1,5 +1,5 @@
 import { PrismaOrgsRepository } from '@/repositories/prisma/prisma-orgs-repository'
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
+import { OrgAlreadyExistsError } from '@/use-cases/errors/org-already-exists-error'
 import { RegisterUseCase } from '@/use-cases/register'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -30,7 +30,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       whatsapp,
     })
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
+    if (err instanceof OrgAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
     }
 
