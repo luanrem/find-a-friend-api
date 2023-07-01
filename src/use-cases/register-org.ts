@@ -3,7 +3,7 @@ import { Org } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { OrgAlreadyExistsError } from './errors/org-already-exists-error'
 
-interface RegisterUseCaseRequest {
+interface RegisterOrgUseCaseRequest {
   name: string
   email: string
   password: string
@@ -12,11 +12,11 @@ interface RegisterUseCaseRequest {
   whatsapp: string
 }
 
-interface RegisterUseCaseResponse {
+interface RegisterOrgUseCaseResponse {
   org: Org
 }
 
-export class RegisterUseCase {
+export class RegisterOrgUseCase {
   // eslint-disable-next-line prettier/prettier
   constructor(private orgsRepository: OrgsRepository) { }
 
@@ -27,7 +27,7 @@ export class RegisterUseCase {
     cep,
     address,
     whatsapp,
-  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  }: RegisterOrgUseCaseRequest): Promise<RegisterOrgUseCaseResponse> {
     const orgAlreadyExists = await this.orgsRepository.findByEmail(email)
 
     if (orgAlreadyExists) {

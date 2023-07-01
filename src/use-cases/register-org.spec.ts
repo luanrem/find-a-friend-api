@@ -1,16 +1,16 @@
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { expect, describe, it, beforeEach } from 'vitest'
-import { RegisterUseCase } from './register'
+import { RegisterOrgUseCase } from './register-org'
 import { OrgAlreadyExistsError } from './errors/org-already-exists-error'
 import { compare } from 'bcryptjs'
 
 let orgsRepository: InMemoryOrgsRepository
-let sut: RegisterUseCase
+let sut: RegisterOrgUseCase
 
 describe('Register Org', () => {
   beforeEach(() => {
     orgsRepository = new InMemoryOrgsRepository()
-    sut = new RegisterUseCase(orgsRepository)
+    sut = new RegisterOrgUseCase(orgsRepository)
   })
 
   it('should be able to register', async () => {
