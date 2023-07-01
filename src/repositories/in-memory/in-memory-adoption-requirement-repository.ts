@@ -3,7 +3,7 @@ import { AdoptionRequirementRepository } from "../adoption-requirement-repositor
 
 
 export class InMemoryAdoptionRequirementRepository implements AdoptionRequirementRepository {
-  create(data: Prisma.AdoptionRequirementCreateInput): Promise<AdoptionRequirement> {
+  create(data: Prisma.AdoptionRequirementUncheckedCreateInput): Promise<AdoptionRequirement> {
     throw new Error("Method not implemented.");
   }
 

@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma'
 export class PrismaAdoptionRequirementRepository
   implements AdoptionRequirementRepository {
   async create(
-    data: Prisma.AdoptionRequirementCreateInput,
+    data: Prisma.AdoptionRequirementUncheckedCreateInput,
   ): Promise<AdoptionRequirement> {
     const adoptionRequirement = await prisma.adoptionRequirement.create({
       data,
