@@ -15,6 +15,35 @@ enum Role {
   MEMBER
 }
 
+enum PetAge {
+  NEWBORN
+  PUPPY
+  YOUNG
+  ADULT
+  OLD
+}
+
+enum PetSize {
+  EXTRASMALL
+  SMALL
+  MEDIUM
+  LARGE
+  EXTRALARGE
+}
+
+enum PetEnergy {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum PetAmbient {
+  SMALL
+  MEDIUM
+  LARGE
+  EXTRALARGE
+}
+
 model Org {
   id            String   @id @default(uuid())
   name          String
@@ -31,13 +60,41 @@ model Org {
 }
 
 model Pet {
-  id         String   @id @default(uuid())
-  name       String
-  about      String?
-  created_at DateTime @default(now())
+  id          String       @id @default(uuid())
+  name        String
+  about       String?
+  age         PetAge
+  size        PetSize
+  energy      PetEnergy
+  ambient     PetAmbient
+  dogPictures DogPicture[]
+  created_at  DateTime     @default(now())
 
-  org    Org    @relation(fields: [org_id], references: [id])
-  org_id String
+  org                 Org                   @relation(fields: [org_id], references: [id])
+  org_id              String
+  AdoptionRequirement AdoptionRequirement[]
 
   @@map("pets")
+}
+
+model DogPicture {
+  id         String   @id @default(uuid())
+  url        String
+  created_at DateTime @default(now())
+
+  pet    Pet    @relation(fields: [pet_id], references: [id])
+  pet_id String
+
+  @@map("pictures")
+}
+
+model AdoptionRequirement {
+  id          String   @id @default(uuid())
+  requirement String
+  created_at  DateTime @default(now())
+
+  pet   Pet    @relation(fields: [petId], references: [id])
+  petId String
+
+  @@map("adoption_requirements")
 }
