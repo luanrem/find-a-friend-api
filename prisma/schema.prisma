@@ -72,13 +72,13 @@ model Pet {
   org    Org    @relation(fields: [org_id], references: [id])
   org_id String
 
-  dogPictures         DogPicture[]
+  dogPictures         PetPicture[]
   adoptionRequirement AdoptionRequirement[]
 
   @@map("pets")
 }
 
-model DogPicture {
+model PetPicture {
   id         String   @id @default(uuid())
   url        String
   created_at DateTime @default(now())
@@ -86,7 +86,7 @@ model DogPicture {
   pet    Pet    @relation(fields: [pet_id], references: [id])
   pet_id String
 
-  @@map("pictures")
+  @@map("pet_pictures")
 }
 
 model AdoptionRequirement {
