@@ -60,19 +60,20 @@ model Org {
 }
 
 model Pet {
-  id          String       @id @default(uuid())
-  name        String
-  about       String?
-  age         PetAge
-  size        PetSize
-  energy      PetEnergy
-  ambient     PetAmbient
-  dogPictures DogPicture[]
-  created_at  DateTime     @default(now())
+  id         String     @id @default(uuid())
+  name       String
+  about      String?
+  age        PetAge
+  size       PetSize
+  energy     PetEnergy
+  ambient    PetAmbient
+  created_at DateTime   @default(now())
 
-  org                 Org                   @relation(fields: [org_id], references: [id])
-  org_id              String
-  AdoptionRequirement AdoptionRequirement[]
+  org    Org    @relation(fields: [org_id], references: [id])
+  org_id String
+
+  dogPictures         DogPicture[]
+  adoptionRequirement AdoptionRequirement[]
 
   @@map("pets")
 }

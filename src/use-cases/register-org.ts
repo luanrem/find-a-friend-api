@@ -17,7 +17,6 @@ interface RegisterOrgUseCaseResponse {
 }
 
 export class RegisterOrgUseCase {
-  // eslint-disable-next-line prettier/prettier
   constructor(private orgsRepository: OrgsRepository) { }
 
   async execute({

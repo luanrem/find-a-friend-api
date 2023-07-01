@@ -3,7 +3,6 @@ import { AdoptionRequirementRepository } from '../adoption-requirement-repositor
 import { prisma } from '@/lib/prisma'
 
 export class PrismaAdoptionRequirementRepository
-  // eslint-disable-next-line prettier/prettier
   implements AdoptionRequirementRepository {
   async create(
     data: Prisma.AdoptionRequirementCreateInput,
