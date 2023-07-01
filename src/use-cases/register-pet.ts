@@ -5,18 +5,14 @@ import { OrgDoesNotExistsError } from './errors/org-does-not-exist-error'
 
 interface RegisterPetRequest {
   name: string
-  about?: string
-  age?: PetAge
-  size?: PetSize
-  energy?: PetEnergy
-  ambient?: PetAmbient
-  petPicturesUrl?: [
-    { url: string }
-  ]
+  about?: string | null
+  age?: PetAge | null
+  size?: PetSize | null
+  energy?: PetEnergy | null
+  ambient?: PetAmbient | null
+  petPicturesUrl?: { url: string }[] | null
   org_id: string
-  adoptionRequirement?: [
-    { requirement: string }
-  ]
+  adoptionRequirement?: { requirement: string }[] | null
 }
 
 interface RegisterPetResponse {
@@ -58,16 +54,16 @@ export class RegisterPetUseCase {
           id: orgFound.id
         }
       },
-      petPictures: petPicturesUrl && {
+      petPictures: petPicturesUrl ? {
         createMany: {
           data: petPicturesUrl
         }
-      },
-      adoptionRequirement: adoptionRequirement && {
+      } : undefined,
+      adoptionRequirement: adoptionRequirement ? {
         createMany: {
           data: adoptionRequirement
         }
-      }
+      } : undefined
     })
 
     return {
