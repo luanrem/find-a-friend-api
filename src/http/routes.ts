@@ -9,5 +9,6 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/org/sessions', authenticate)
   app.post('/pet/new', registerPet)
 
+  /** Authenticated */
   app.get('/org/me', profile)
 }
