@@ -2,6 +2,7 @@ import { OrgsRepository } from '@/repositories/orgs-repository'
 import { Org } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { OrgAlreadyExistsError } from './errors/org-already-exists-error'
+import { SearchCityByCep } from '@/utils/search-city-by-cep'
 
 interface RegisterOrgUseCaseRequest {
   name: string
@@ -33,6 +34,10 @@ export class RegisterOrgUseCase {
       throw new OrgAlreadyExistsError()
     }
 
+    const { city } = await SearchCityByCep(cep)
+
+    console.log('CITY', city)
+
     const password_hash = await hash(password, 6)
 
     const org = await this.orgsRepository.create({
@@ -40,6 +45,7 @@ export class RegisterOrgUseCase {
       email,
       password_hash,
       cep,
+      city,
       address,
       whatsapp,
     })
