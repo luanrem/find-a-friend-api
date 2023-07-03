@@ -3,10 +3,6 @@ import { GetOrgProfileUseCase } from '@/use-cases/get-org-profile'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function profile(request: FastifyRequest, reply: FastifyReply) {
-  await request.jwtVerify()
-
-  console.log(request.user.sub)
-
   const orgsRepository = new PrismaOrgsRepository()
   const getOrgProfileUseCase = new GetOrgProfileUseCase(orgsRepository)
 
