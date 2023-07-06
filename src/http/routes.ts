@@ -9,10 +9,10 @@ import { listPets } from './controller/Pet/listPets'
 export async function appRoutes(app: FastifyInstance) {
   app.post('/org/new', registerOrg)
   app.post('/org/sessions', authenticate)
-  app.post('/pet/new', registerPet)
   app.get('/pet/:city', listPets)
 
 
   /** Authenticated */
+  app.post('/pet/new', { onRequest: [verifyJWT] }, registerPet)
   app.get('/org/me', { onRequest: [verifyJWT] }, profile)
 }
