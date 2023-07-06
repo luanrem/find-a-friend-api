@@ -3,6 +3,7 @@ import { PetsRepository } from '../pets-repository'
 import { randomUUID } from 'crypto'
 
 export class InMemoryPetsRepository implements PetsRepository {
+
   public items: Pet[] = []
 
   async create(data: Prisma.PetCreateInput): Promise<Pet> {
@@ -23,6 +24,16 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet
   }
 
+  async findById(id: string): Promise<Pet | null> {
+    const pet = this.items.find((item) => item.id === id)
+
+    if (!pet) {
+      return null
+    }
+
+    return pet
+  }
+
   async findByOrg(orgId: string): Promise<Pet[] | null> {
     const pet = this.items.filter((item) => item.org_id === orgId)
 
@@ -31,5 +42,9 @@ export class InMemoryPetsRepository implements PetsRepository {
     }
 
     return pet
+  }
+
+  findByOrgCity(city: string): Promise<Pet[] | null> {
+    throw new Error('Method not implemented.')
   }
 }

@@ -9,6 +9,20 @@ export class PrismaPetsRepository implements PetsRepository {
     return pet
   }
 
+  async findById(id: string): Promise<Pet | null> {
+    const pet = await prisma.pet.findFirst({
+      where: {
+        id
+      }
+    })
+
+    if (!pet) {
+      return null
+    }
+
+    return pet
+  }
+
   async findByOrg(orgId: string): Promise<Pet[] | null> {
     const pets = await prisma.pet.findMany({
       where: {
