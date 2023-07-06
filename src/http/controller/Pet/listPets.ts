@@ -1,4 +1,3 @@
-import { PrismaOrgsRepository } from '@/repositories/prisma/prisma-orgs-repository'
 import { PrismaPetsRepository } from '@/repositories/prisma/prisma-pets-repository'
 import { OrgDoesNotExistsError } from '@/use-cases/errors/org-does-not-exist-error'
 import { ListPetByCityUseCase } from '@/use-cases/list-pet-by-city'
@@ -10,15 +9,22 @@ export async function listPets(request: FastifyRequest, reply: FastifyReply) {
     city: z.string(),
   })
 
+  const listPetsQuerySchema = z.object({
+    size: z.string().optional(),
+    energy: z.string().optional()
+  })
+
+  const query = listPetsQuerySchema.parse(request.query)
+
   const { city } = listPetsParamSchema.parse(request.params)
 
   try {
-    const orgsRepository = new PrismaOrgsRepository()
     const petsRepository = new PrismaPetsRepository()
-    const listPetByCityUseCase = new ListPetByCityUseCase(petsRepository, orgsRepository)
+    const listPetByCityUseCase = new ListPetByCityUseCase(petsRepository)
 
     const pets = await listPetByCityUseCase.execute({
-      city
+      city,
+      query
     })
 
     return reply.status(200).send(pets)
