@@ -3,6 +3,7 @@ import { Org } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { OrgAlreadyExistsError } from './errors/org-already-exists-error'
 import { SearchCityByCep } from '@/utils/search-city-by-cep'
+import { InvalidCepError } from './errors/invalid-cep-error'
 
 interface RegisterOrgUseCaseRequest {
   name: string
@@ -36,7 +37,9 @@ export class RegisterOrgUseCase {
 
     const { city } = await SearchCityByCep(cep)
 
-    console.log('CITY', city)
+    if (!city) {
+      throw new InvalidCepError()
+    }
 
     const password_hash = await hash(password, 6)
 

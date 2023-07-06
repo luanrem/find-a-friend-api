@@ -8,4 +8,30 @@ export class PrismaPetsRepository implements PetsRepository {
 
     return pet
   }
+
+  async findByOrg(orgId: string): Promise<Pet[] | null> {
+    const pets = await prisma.pet.findMany({
+      where: {
+        org_id: orgId
+      }
+    })
+
+    if (!pets) {
+      return null
+    }
+
+    return pets
+  }
+
+  async findByOrgCity(city: string): Promise<Pet[] | null> {
+    const pets = await prisma.pet.findMany({
+      where: {
+        org: {
+          city
+        }
+      }
+    })
+
+    return pets
+  }
 }
